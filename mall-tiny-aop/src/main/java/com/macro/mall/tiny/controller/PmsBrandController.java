@@ -34,6 +34,7 @@ public class PmsBrandController {
     @RequestMapping(value = "listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<PmsBrand>> getBrandList() {
+        System.out.println("listAll");
         return CommonResult.success(brandService.listAllBrand());
     }
 
@@ -41,6 +42,7 @@ public class PmsBrandController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult createBrand(@RequestBody PmsBrand pmsBrand) {
+        System.out.println("/create");
         CommonResult commonResult;
         int count = brandService.createBrand(pmsBrand);
         if (count == 1) {
@@ -57,6 +59,7 @@ public class PmsBrandController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateBrand(@PathVariable("id") Long id, @RequestBody PmsBrand pmsBrandDto, BindingResult result) {
+        System.out.println("/update/{id}");
         CommonResult commonResult;
         int count = brandService.updateBrand(id, pmsBrandDto);
         if (count == 1) {
@@ -73,6 +76,7 @@ public class PmsBrandController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult deleteBrand(@PathVariable("id") Long id) {
+        System.out.println("/delete/{id}");
         int count = brandService.deleteBrand(id);
         if (count == 1) {
             LOGGER.debug("deleteBrand success :id={}", id);
@@ -90,6 +94,7 @@ public class PmsBrandController {
                                                         @ApiParam("页码") Integer pageNum,
                                                         @RequestParam(value = "pageSize", defaultValue = "3")
                                                         @ApiParam("每页数量") Integer pageSize) {
+        System.out.println("/list");
         List<PmsBrand> brandList = brandService.listBrand(pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(brandList));
     }
@@ -98,6 +103,7 @@ public class PmsBrandController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<PmsBrand> brand(@PathVariable("id") Long id) {
+        System.out.println("/{id}");
         return CommonResult.success(brandService.getBrand(id));
     }
 }

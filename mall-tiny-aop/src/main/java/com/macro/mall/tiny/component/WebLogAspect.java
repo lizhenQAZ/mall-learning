@@ -40,18 +40,32 @@ public class WebLogAspect {
 
     @Pointcut("execution(public * com.macro.mall.tiny.controller.*.*(..))")
     public void webLog() {
+        System.out.println("webLog()");
     }
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
+        System.out.println("@Before(\"webLog()\")");
+    }
+
+    @After("webLog()")
+    public void doAfter(JoinPoint joinPoint) throws Throwable {
+        System.out.println("@After(\"webLog()\")");
     }
 
     @AfterReturning(value = "webLog()", returning = "ret")
     public void doAfterReturning(Object ret) throws Throwable {
+        System.out.println("@AfterReturning(value = \"webLog()\", returning = \"ret\")");
+    }
+    @AfterThrowing(value = "webLog()", throwing = "error")
+    public void doAfterThrowing(JoinPoint joinPoint,  Throwable error) throws Throwable {
+        System.out.println("@AfterThrowing(value = \"webLog()\", throwing = \"error\")");
     }
 
     @Around("webLog()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("@Around(\"webLog()\")1");
+
         long startTime = System.currentTimeMillis();
         //获取当前请求对象
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -78,6 +92,7 @@ public class WebLogAspect {
         webLog.setUri(request.getRequestURI());
         webLog.setUrl(request.getRequestURL().toString());
         LOGGER.info("{}", JSONUtil.parse(webLog));
+        System.out.println("@Around(\"webLog()\")2");
         return result;
     }
 
